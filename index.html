@@ -3,234 +3,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ڕۆژی لەدایکبوونت پیرۆز ئاسودە خان 🎆🎂</title>
-    <!-- کێشەرەوەی کاغەزی بریقەدار و ئاگرین -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <title>ڕۆژی لە دایک بونت پیرۆز ئاسودە🤍</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background: #0f0c29;
-            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            background: #020208;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            overflow: hidden;
             color: #fff;
-            overflow-x: hidden;
             text-align: center;
         }
 
-        /* کاستی ئاگرین لە پاشبنەما */
-        #fireworksCanvas {
+        canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
             z-index: 1;
+            pointer-events: none;
         }
 
-        .container {
+        .card {
             position: relative;
             z-index: 10;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            max-width: 450px;
-            width: 100%;
+            background: rgba(15, 15, 30, 0.65);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 35px 25px;
+            border-radius: 30px;
+            box-shadow: 0 0 50px rgba(180, 0, 255, 0.2);
+            max-width: 420px;
+            width: 90%;
         }
 
-        .age-badge {
-            background: linear-gradient(45deg, #ff007f, #7928ca);
-            padding: 6px 18px;
-            border-radius: 20px;
+        .age-tag {
+            background: linear-gradient(90deg, #ff007f, #7928ca);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.95rem;
             font-weight: bold;
-            font-size: 1.1rem;
             display: inline-block;
             margin-bottom: 15px;
             box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
-            animation: pulse 2s infinite;
+            letter-spacing: 1px;
         }
 
         h1 {
-            font-size: 2.2rem;
-            color: #ff79c6;
-            text-shadow: 0 0 10px rgba(255, 121, 198, 0.5);
-            margin-bottom: 5px;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 0, 127, 0.6);
+            margin-bottom: 25px;
+            line-height: 1.3;
         }
 
-        .name {
-            font-size: 2.8rem;
-            color: #f1fa8c;
-            text-shadow: 0 0 15px rgba(241, 250, 138, 0.8);
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        /* دیزاینی کێک */
-        .cake-wrapper {
-            margin: 25px 0;
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        .cake {
-            width: 140px;
-            height: 100px;
-            background: #ffb86c;
-            border-radius: 15px 15px 0 0;
+        /* Anime Style Realistic Cake */
+        .cake-container {
             position: relative;
-            margin: 0 auto;
-            box-shadow: 0 8px 0 #ff922b, inset 0 15px 0 #fff;
+            width: 160px;
+            height: 140px;
+            margin: 20px auto;
+            cursor: pointer;
         }
 
-        .cake::before {
-            content: '';
+        .plate {
+            width: 180px;
+            height: 12px;
+            background: #e0e0e0;
+            background: linear-gradient(to right, #999, #fff, #999);
+            border-radius: 10px;
             position: absolute;
-            top: 45px;
+            bottom: 0;
+            left: -10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .layer {
+            position: absolute;
+            width: 140px;
+            border-radius: 12px 12px 8px 8px;
+            left: 10px;
+        }
+
+        .layer-bottom {
+            height: 50px;
+            bottom: 12px;
+            background: linear-gradient(180deg, #ff85a1, #f72585);
+            box-shadow: inset 0 -8px 0 rgba(0,0,0,0.15);
+        }
+
+        .layer-top {
+            height: 45px;
+            bottom: 55px;
+            width: 110px;
+            left: 25px;
+            background: linear-gradient(180deg, #ffb703, #fb8500);
+            box-shadow: inset 0 -6px 0 rgba(0,0,0,0.15);
+        }
+
+        .cream-drip {
+            position: absolute;
+            top: 0;
             left: 0;
             width: 100%;
-            height: 12px;
-            background: #ff5555;
+            height: 15px;
+            background: #fff;
+            border-radius: 10px 10px 8px 8px;
         }
 
         .candle {
-            width: 12px;
+            width: 10px;
             height: 35px;
-            background: repeating-linear-gradient(45deg, #8be9fd, #8be9fd 5px, #fff 5px, #fff 10px);
-            margin: 0 auto;
-            position: relative;
-            border-radius: 4px 4px 0 0;
+            background: repeating-linear-gradient(45deg, #00f0ff, #00f0ff 5px, #fff 5px, #fff 10px);
+            position: absolute;
+            top: 12px;
+            left: 75px;
+            border-radius: 3px;
+            box-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
         }
 
         .flame {
             width: 14px;
             height: 22px;
-            background: #ffb86c;
+            background: #ffbe0b;
             border-radius: 50% 50% 20% 20%;
             position: absolute;
             top: -22px;
-            left: -1px;
-            box-shadow: 0 0 15px #ffb86c, 0 0 30px #ff5555;
-            animation: burn 0.5s infinite alternate;
-            transition: opacity 0.5s ease;
+            left: -2px;
+            box-shadow: 0 0 15px #ffbe0b, 0 0 25px #ff007f;
+            animation: animeFlame 0.6s infinite alternate ease-in-out;
+            transition: opacity 0.4s;
         }
 
         .flame.off {
             opacity: 0;
         }
 
-        /* دوگمەی یاری ئاگرینی دەستی */
-        .btn-firework {
-            background: linear-gradient(45deg, #ff5555, #ffb86c);
-            color: #fff;
+        @keyframes animeFlame {
+            0% { transform: scale(1) rotate(-3deg); }
+            100% { transform: scale(1.2) rotate(3deg); }
+        }
+
+        .btn-launch {
+            background: linear-gradient(45deg, #7928ca, #ff007f);
+            color: white;
             border: none;
-            padding: 12px 28px;
-            font-size: 1.1rem;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 10px 20px rgba(255, 85, 85, 0.4);
-            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
+            transition: transform 0.2s;
+            margin-top: 15px;
+        }
+
+        .btn-launch:active {
+            transform: scale(0.95);
+        }
+
+        .sub-text {
+            font-size: 0.8rem;
+            color: #aaa;
             margin-top: 10px;
-        }
-
-        .btn-firework:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 25px rgba(255, 85, 85, 0.6);
-        }
-
-        .hint-text {
-            font-size: 0.85rem;
-            color: #bd93f9;
-            margin-top: 8px;
-        }
-
-        @keyframes burn {
-            0% { transform: scale(1) rotate(-2deg); }
-            100% { transform: scale(1.15) rotate(2deg); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
-    <!-- کێشەری ئاگرین -->
-    <canvas id="fireworksCanvas"></canvas>
+    <canvas id="canvas"></canvas>
 
-    <div class="container">
-        <div class="age-badge">Turning 20 Years Old! ✨</div>
-        <h1>ڕۆژی لەدایکبوونت پیرۆز</h1>
-        <div class="name">ئاسودە خان 🌸</div>
+    <div class="card">
+        <div class="age-tag">20th Birthday ✨</div>
+        <h1>ڕۆژی لە دایک بونت پیرۆز ئاسودە🤍</h1>
 
-        <!-- کێک و مۆم -->
-        <div class="cake-wrapper" onclick="extinguishCandle()">
+        <div class="cake-container" onclick="blowCandle()">
+            <div class="plate"></div>
+            <div class="layer layer-bottom">
+                <div class="cream-drip"></div>
+            </div>
+            <div class="layer layer-top">
+                <div class="cream-drip"></div>
+            </div>
             <div class="candle">
                 <div class="flame" id="flame"></div>
             </div>
-            <div class="cake"></div>
-            <div class="hint-text">(پەنجە لە مۆمەکە بدە بۆ فوی لێکردن 🕯️)</div>
         </div>
 
-        <br>
-
-        <button class="btn-firework" onclick="launchFireworks()">تەقاندنی یاری ئاگرینی 🎆</button>
+        <button class="btn-launch" onclick="userLaunch()">تەقاندنی یاری ئاگرینی 🎆</button>
+        <div class="sub-text">(کلیک لە کێکەکە یان دوگمەکە بکە 🔊)</div>
     </div>
 
     <script>
-        // تەقاندنی ڕاستەوخۆی یاری ئاگرینی
-        function launchFireworks() {
-            var duration = 3 * 1000;
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
-
-            function randomInRange(min, max) {
-              return Math.random() * (max - min) + min;
-            }
-
-            var interval = setInterval(function() {
-              var timeLeft = animationEnd - Date.now();
-
-              if (timeLeft <= 0) {
-                return clearInterval(interval);
-              }
-
-              var particleCount = 50 * (timeLeft / duration);
-              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
+        // Audio Synthesizer for Sound Effects
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playLaunchSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.4);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.4);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.4);
         }
 
-        // کوژاندنەوەی مۆم
-        function extinguishCandle() {
-            var flame = document.getElementById('flame');
-            if(!flame.classList.contains('off')) {
-                flame.classList.add('off');
-                launchFireworks();
+        function playExplodeSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const bufferSize = audioCtx.sampleRate * 0.5;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(800, audioCtx.currentTime);
+            filter.frequency.linearRampToValueAtTime(50, audioCtx.currentTime + 0.5);
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            noise.start();
+        }
+
+        // Canvas Fireworks Engine
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let rockets = [];
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Rocket {
+            constructor(targetX, targetY) {
+                this.x = canvas.width / 2 + (Math.random() * 200 - 100);
+                this.y = canvas.height;
+                this.targetX = targetX || Math.random() * canvas.width;
+                this.targetY = targetY || Math.random() * (canvas.height * 0.5);
+                this.speed = 8;
+                this.angle = Math.atan2(this.targetY - this.y, this.targetX - this.x);
+                this.vx = Math.cos(this.angle) * this.speed;
+                this.vy = Math.sin(this.angle) * this.speed;
+                playLaunchSound();
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (Math.hypot(this.targetX - this.x, this.targetY - this.y) < 10) {
+                    this.explode();
+                    return false;
+                }
+                return true;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = '#fff';
+                ctx.fill();
+            }
+
+            explode() {
+                playExplodeSound();
+                const colors = ['#ff007f', '#00f0ff', '#ffbe0b', '#7928ca', '#00ff66'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                for (let i = 0; i < 60; i++) {
+                    particles.push(new Particle(this.x, this.y, color));
+                }
             }
         }
 
-        // یاری ئاگرینی ئۆتۆماتیکی لە کاتی باوەڕپێکردنی لاپەڕەکە
-        window.onload = function() {
-            setTimeout(launchFireworks, 500);
-        };
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 6 + 1;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.alpha = 1;
+                this.friction = 0.96;
+                this.gravity = 0.15;
+            }
+
+            update() {
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= 0.015;
+                return this.alpha > 0;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(2, 2, 8, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            rockets = rockets.filter(r => {
+                r.draw();
+                return r.update();
+            });
+
+            particles = particles.filter(p => {
+                p.draw();
+                return p.update();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        function userLaunch() {
+            for(let i=0; i<3; i++) {
+                setTimeout(() => {
+                    rockets.push(new Rocket());
+                }, i * 300);
+            }
+        }
+
+        function blowCandle() {
+            document.getElementById('flame').classList.add('off');
+            userLaunch();
+        }
+
+        // Auto launch on start
+        setTimeout(userLaunch, 800);
     </script>
 </body>
 </html>
