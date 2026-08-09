@@ -5,23 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ڕۆژی لە دایک بونت پیرۆز ئاسودە🤍</title>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Vazirmatn', sans-serif;
+            -webkit-tap-highlight-color: transparent;
             user-select: none;
         }
 
         body {
-            background: #03030c;
+            background: #090a16;
+            background: radial-gradient(circle at center, #1a1c38 0%, #080914 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             color: #fff;
+            padding: 15px;
         }
 
         canvas {
@@ -34,65 +38,52 @@
             pointer-events: none;
         }
 
-        /* Ultra Glassmorphic Card */
-        .main-card {
+        /* Perfectly Mobile-Centered Responsive Card */
+        .card {
             position: relative;
             z-index: 10;
-            width: 90%;
-            max-width: 440px;
-            padding: 35px 25px;
-            background: rgba(18, 18, 38, 0.55);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 35px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6),
-                        0 0 40px rgba(236, 72, 153, 0.25),
-                        inset 0 0 15px rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 380px;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5),
+                        0 0 30px rgba(236, 72, 153, 0.2);
             text-align: center;
-            animation: floatCard 6s ease-in-out infinite alternate;
-        }
-
-        @keyframes floatCard {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(-10px); }
+            margin: auto;
         }
 
         .badge {
             display: inline-block;
-            padding: 6px 18px;
+            padding: 5px 16px;
             background: linear-gradient(135deg, #ec4899, #8b5cf6);
             border-radius: 50px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 700;
             letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
-            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
+            margin-bottom: 15px;
         }
 
         h1 {
-            font-size: 2.1rem;
+            font-size: 1.8rem;
             font-weight: 900;
-            background: linear-gradient(to bottom, #ffffff, #fbcfe8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(236, 72, 153, 0.5);
-            margin-bottom: 25px;
-            line-height: 1.4;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(236, 72, 153, 0.4);
+            margin-bottom: 20px;
+            line-height: 1.35;
         }
 
-        /* 3D Anime Style Cake */
-        .cake-wrapper {
+        /* Realistic Cake Design */
+        .cake-container {
             position: relative;
-            width: 180px;
-            height: 160px;
-            margin: 15px auto 25px auto;
+            width: 160px;
+            height: 140px;
+            margin: 10px auto 20px auto;
             cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .cake-wrapper:hover {
-            transform: scale(1.05);
         }
 
         .plate {
@@ -100,176 +91,189 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 200px;
-            height: 14px;
-            background: linear-gradient(90deg, #64748b, #f8fafc, #64748b);
+            width: 180px;
+            height: 12px;
+            background: linear-gradient(90deg, #94a3b8, #f8fafc, #94a3b8);
             border-radius: 100px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.6);
         }
 
-        .cake-layer {
+        .cake-body {
             position: absolute;
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
-            border-radius: 15px 15px 10px 10px;
+            width: 140px;
+            height: 80px;
+            background: linear-gradient(180deg, #f472b6 0%, #db2777 100%);
+            border-radius: 12px 12px 6px 6px;
+            box-shadow: inset 0 -10px 0 rgba(0,0,0,0.15);
         }
 
-        .layer-bottom {
-            bottom: 14px;
-            width: 150px;
-            height: 55px;
-            background: linear-gradient(180deg, #f472b6, #db2777);
-            box-shadow: inset 0 -8px 0 rgba(0,0,0,0.15);
-        }
-
-        .layer-top {
-            bottom: 65px;
-            width: 115px;
-            height: 50px;
-            background: linear-gradient(180deg, #38bdf8, #0284c7);
-            box-shadow: inset 0 -8px 0 rgba(0,0,0,0.15);
-        }
-
-        .drip {
+        .icing {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 16px;
+            height: 25px;
             background: #ffffff;
-            border-radius: 10px 10px 8px 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 12px 12px 15px 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .cherry {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #ef4444;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
         .candle {
             position: absolute;
-            bottom: 112px;
+            bottom: 90px;
             left: 50%;
             transform: translateX(-50%);
-            width: 12px;
-            height: 38px;
-            background: repeating-linear-gradient(45deg, #facc15, #facc15 6px, #ffffff 6px, #ffffff 12px);
-            border-radius: 4px;
-            box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+            width: 10px;
+            height: 35px;
+            background: repeating-linear-gradient(45deg, #facc15, #facc15 5px, #ffffff 5px, #ffffff 10px);
+            border-radius: 3px;
+            box-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
         }
 
         .flame {
             position: absolute;
-            top: -24px;
+            top: -22px;
             left: 50%;
             transform: translateX(-50%);
-            width: 16px;
-            height: 26px;
+            width: 14px;
+            height: 24px;
             background: linear-gradient(to top, #ff4500, #ffbe0b, #ffffff);
             border-radius: 50% 50% 20% 20%;
-            box-shadow: 0 0 20px #ffbe0b, 0 0 35px #ff4500;
-            animation: flicker 0.5s infinite alternate ease-in-out;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            box-shadow: 0 0 15px #ffbe0b, 0 0 25px #ff4500;
+            animation: flicker 0.6s infinite alternate ease-in-out;
+            transition: opacity 0.4s, transform 0.4s;
         }
 
-        .flame.blown {
+        .flame.off {
             opacity: 0;
             transform: translateX(-50%) scale(0);
         }
 
-        @keyframes flicker {
-            0% { transform: translateX(-50%) scale(1) rotate(-3deg); }
-            100% { transform: translateX(-50%) scale(1.15) rotate(3deg); }
+        /* Smoke Effect */
+        .smoke {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 15px;
+            background: rgba(200, 200, 200, 0.6);
+            border-radius: 10px;
+            opacity: 0;
+            pointer-events: none;
         }
 
-        /* Action Buttons */
+        .smoke.active {
+            animation: smokeRise 1.5s forwards ease-out;
+        }
+
+        @keyframes smokeRise {
+            0% { opacity: 0.8; transform: translateX(-50%) translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-30px) scale(3); }
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1) rotate(-2deg); }
+            100% { transform: translateX(-50%) scale(1.15) rotate(2deg); }
+        }
+
+        .hint-text {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        /* Buttons */
         .btn-group {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .btn {
             background: linear-gradient(135deg, #ec4899, #8b5cf6);
             color: #fff;
             border: none;
-            padding: 14px 28px;
+            padding: 12px 24px;
             border-radius: 50px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(236, 72, 153, 0.6);
+            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.35);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .btn:active {
-            transform: translateY(1px);
+            transform: scale(0.96);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: none;
         }
 
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Modal Popup */
-        .modal-overlay {
+        /* Modal */
+        .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
             z-index: 100;
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.3s ease;
+            padding: 20px;
         }
 
-        .modal-overlay.active {
+        .modal.active {
             opacity: 1;
             pointer-events: auto;
         }
 
-        .modal-body {
-            background: rgba(25, 25, 50, 0.9);
+        .modal-content {
+            background: #1e1b4b;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            padding: 30px;
-            max-width: 380px;
-            width: 85%;
+            border-radius: 25px;
+            padding: 25px;
+            max-width: 320px;
+            width: 100%;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-            transform: scale(0.8);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.7);
         }
 
-        .modal-overlay.active .modal-body {
-            transform: scale(1);
-        }
-
-        .modal-body h2 {
+        .modal-content h2 {
             color: #f472b6;
-            margin-bottom: 15px;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
         }
 
-        .modal-body p {
-            font-size: 1.05rem;
-            line-height: 1.7;
+        .modal-content p {
+            font-size: 0.95rem;
+            line-height: 1.6;
             color: #e2e8f0;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -277,101 +281,67 @@
 
     <canvas id="canvas"></canvas>
 
-    <div class="main-card">
+    <div class="card">
         <div class="badge">✨ 20th Birthday ✨</div>
         <h1>ڕۆژی لە دایک بونت پیرۆز ئاسودە🤍</h1>
 
-        <div class="cake-wrapper" onclick="blowCandle()">
+        <div class="cake-container" onclick="blowCandle()">
             <div class="plate"></div>
-            <div class="cake-layer layer-bottom">
-                <div class="drip"></div>
+            <div class="cake-body">
+                <div class="icing"></div>
             </div>
-            <div class="cake-layer layer-top">
-                <div class="drip"></div>
-            </div>
+            <div class="cherry"></div>
             <div class="candle">
                 <div class="flame" id="flame"></div>
+                <div class="smoke" id="smoke"></div>
             </div>
         </div>
 
+        <div class="hint-text">(پەنجە لە مۆمەکە بدە بۆ کوژاندنەوەی 🕯️)</div>
+
         <div class="btn-group">
-            <button class="btn" onclick="triggerFireworksSeries()">
-                <span>تەقاندنی یاری ئاگرینی</span> 🎆
-            </button>
-            <button class="btn btn-secondary" onclick="openModal()">
-                <span>پەیامی تایبەت</span> 💌
-            </button>
+            <button class="btn" onclick="launchFireworks()">تەقاندنی یاری ئاگرینی 🎆</button>
+            <button class="btn btn-secondary" onclick="openModal()">پەیامی تایبەت 💌</button>
         </div>
     </div>
 
-    <!-- Modal Message -->
-    <div class="modal-overlay" id="modal">
-        <div class="modal-body">
-            <h2>ئاسودە خانی ئازیز 🌸</h2>
+    <!-- Modal Popup -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>ئاسودەی ئازیز 🌸</h2>
             <p>
-                بەبۆنەی ۲۰ ساڵیی تەمەنتەوە، جوانترین و گەرمترین پیرۆزباییت لێدەکەم! 
-                هیودارم ئەم ساڵە نوێیەی تەمەنت پڕ بێت لە بەختەوەری، سەرکەوتن، خەندە و هێنانەدی هەموو ئاواتە جوانەکانت. 🤍✨
+                بەبۆنەی ۲۰ ساڵیی تەمەنتەوە، جوانترین پیرۆزباییت لێدەکەم! 
+                هیودارم ئەم ساڵە نوێیەی تەمەنت پڕ بێت لە بەختەوەری، سەرکەوتن و هێنانەدی هەموو ئاواتە جوانەکانت. 🤍✨
             </p>
-            <button class="btn" style="width: 100%;" onclick="closeModal()">داخستن ✖</button>
+            <button class="btn" style="width: 100%;" onclick="closeModal()">داخستن</button>
         </div>
     </div>
 
     <script>
-        // High Quality Audio Synthesizer (No external files needed)
+        // Audio Effects
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         let audioCtx;
 
         function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new AudioCtx();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+            if (!audioCtx) audioCtx = new AudioCtx();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
-        function playLaunchSound() {
+        function playSound(freq, type, duration) {
             initAudio();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(180, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.35);
-            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-            gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.35);
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.start();
-            osc.stop(audioCtx.currentTime + 0.35);
+            osc.stop(audioCtx.currentTime + duration);
         }
 
-        function playExplosionSound() {
-            initAudio();
-            const bufferSize = audioCtx.sampleRate * 0.6;
-            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-                data[i] = Math.random() * 2 - 1;
-            }
-            const noise = audioCtx.createBufferSource();
-            noise.buffer = buffer;
-
-            const filter = audioCtx.createBiquadFilter();
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(600, audioCtx.currentTime);
-            filter.frequency.linearRampToValueAtTime(40, audioCtx.currentTime + 0.6);
-
-            const gain = audioCtx.createGain();
-            gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
-
-            noise.connect(filter);
-            filter.connect(gain);
-            gain.connect(audioCtx.destination);
-            noise.start();
-        }
-
-        // Particle System & Fireworks
+        // Canvas Fireworks
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         let rockets = [];
@@ -385,22 +355,22 @@
         resize();
 
         class Rocket {
-            constructor(targetX, targetY) {
-                this.x = canvas.width / 2 + (Math.random() * 240 - 120);
+            constructor() {
+                this.x = canvas.width / 2 + (Math.random() * 160 - 80);
                 this.y = canvas.height;
-                this.targetX = targetX || Math.random() * (canvas.width * 0.8) + (canvas.width * 0.1);
-                this.targetY = targetY || Math.random() * (canvas.height * 0.45) + 80;
-                this.speed = 9;
+                this.targetX = Math.random() * (canvas.width * 0.8) + (canvas.width * 0.1);
+                this.targetY = Math.random() * (canvas.height * 0.4) + 60;
+                this.speed = 8;
                 this.angle = Math.atan2(this.targetY - this.y, this.targetX - this.x);
                 this.vx = Math.cos(this.angle) * this.speed;
                 this.vy = Math.sin(this.angle) * this.speed;
-                playLaunchSound();
+                playSound(300, 'sine', 0.2);
             }
 
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-                if (Math.hypot(this.targetX - this.x, this.targetY - this.y) < 12) {
+                if (Math.hypot(this.targetX - this.x, this.targetY - this.y) < 10) {
                     this.explode();
                     return false;
                 }
@@ -409,63 +379,23 @@
 
             draw() {
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-                ctx.fillStyle = '#ffffff';
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = '#ec4899';
+                ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = '#fff';
                 ctx.fill();
             }
 
             explode() {
-                playExplosionSound();
-                const colors = ['#ec4899', '#38bdf8', '#facc15', '#a855f7', '#4ade80', '#f43f5e'];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                const particleCount = 70;
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push(new Particle(this.x, this.y, color));
-                }
-            }
-        }
-
-        class Particle {
-            constructor(x, y, color) {
-                this.x = x;
-                this.y = y;
-                this.color = color;
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 7 + 1.5;
-                this.vx = Math.cos(angle) * speed;
-                this.vy = Math.sin(angle) * speed;
-                this.alpha = 1;
-                this.friction = 0.95;
-                this.gravity = 0.12;
-            }
-
-            update() {
-                this.vx *= this.friction;
-                this.vy *= this.friction;
-                this.vy += this.gravity;
-                this.x += this.vx;
-                this.y += this.vy;
-                this.alpha -= 0.016;
-                return this.alpha > 0;
-            }
-
-            draw() {
-                ctx.save();
-                ctx.globalAlpha = this.alpha;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, 2.8, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.shadowBlur = 12;
-                ctx.shadowColor = this.color;
-                ctx.fill();
-                ctx.restore();
+                playSound(100, 'square', 0.3);
+                confetti({
+                    particleCount: 40,
+                    spread: 60,
+                    origin: { x: this.x / canvas.width, y: this.y / canvas.height }
+                });
             }
         }
 
         function loop() {
-            ctx.fillStyle = 'rgba(3, 3, 12, 0.22)';
+            ctx.fillStyle = 'rgba(9, 10, 22, 0.25)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             rockets = rockets.filter(r => {
@@ -473,30 +403,28 @@
                 return r.update();
             });
 
-            particles = particles.filter(p => {
-                p.draw();
-                return p.update();
-            });
-
             requestAnimationFrame(loop);
         }
         loop();
 
-        function triggerFireworksSeries() {
-            for (let i = 0; i < 5; i++) {
+        function launchFireworks() {
+            for (let i = 0; i < 4; i++) {
                 setTimeout(() => {
                     rockets.push(new Rocket());
-                }, i * 280);
+                }, i * 250);
             }
         }
 
         function blowCandle() {
             const flame = document.getElementById('flame');
-            if (!flame.classList.contains('blown')) {
-                flame.classList.add('blown');
-                triggerFireworksSeries();
+            const smoke = document.getElementById('smoke');
+            if (!flame.classList.contains('off')) {
+                flame.classList.add('off');
+                smoke.classList.add('active');
+                launchFireworks();
             } else {
-                flame.classList.remove('blown');
+                flame.classList.remove('off');
+                smoke.classList.remove('active');
             }
         }
 
@@ -508,13 +436,8 @@
             document.getElementById('modal').classList.remove('active');
         }
 
-        // Auto fireworks on start
-        setTimeout(triggerFireworksSeries, 800);
+        // Auto launch on load
+        setTimeout(launchFireworks, 600);
     </script>
 </body>
 </html>
-```eof
-
-
-
-کەمێک چاوەڕێ بکە و لاپەڕەکە لە مۆبایل یان لای خۆت نوێ بکەرەوە! ✨🚀
