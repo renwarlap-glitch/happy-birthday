@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ڕۆژی لە دایک بونت پیرۆز ئاسودە🤍</title>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -17,8 +16,8 @@
         }
 
         body {
-            background: #090a16;
-            background: radial-gradient(circle at center, #1a1c38 0%, #080914 100%);
+            background: #05050d;
+            background: radial-gradient(circle at center, #111328 0%, #030308 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -38,20 +37,19 @@
             pointer-events: none;
         }
 
-        /* Perfectly Mobile-Centered Responsive Card */
         .card {
             position: relative;
             z-index: 10;
             width: 100%;
             max-width: 380px;
             padding: 30px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5),
-                        0 0 30px rgba(236, 72, 153, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(236, 72, 153, 0.25);
             text-align: center;
             margin: auto;
         }
@@ -77,12 +75,12 @@
             line-height: 1.35;
         }
 
-        /* Realistic Cake Design */
+        /* Cake & Candle */
         .cake-container {
             position: relative;
             width: 160px;
             height: 140px;
-            margin: 10px auto 20px auto;
+            margin: 10px auto 15px auto;
             cursor: pointer;
         }
 
@@ -162,29 +160,6 @@
         .flame.off {
             opacity: 0;
             transform: translateX(-50%) scale(0);
-        }
-
-        /* Smoke Effect */
-        .smoke {
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 6px;
-            height: 15px;
-            background: rgba(200, 200, 200, 0.6);
-            border-radius: 10px;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .smoke.active {
-            animation: smokeRise 1.5s forwards ease-out;
-        }
-
-        @keyframes smokeRise {
-            0% { opacity: 0.8; transform: translateX(-50%) translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateX(-50%) translateY(-30px) scale(3); }
         }
 
         @keyframes flicker {
@@ -293,14 +268,13 @@
             <div class="cherry"></div>
             <div class="candle">
                 <div class="flame" id="flame"></div>
-                <div class="smoke" id="smoke"></div>
             </div>
         </div>
 
-        <div class="hint-text">(پەنجە لە مۆمەکە بدە بۆ کوژاندنەوەی 🕯️)</div>
+        <div class="hint-text">(کلیک لە مۆمەکە یان دوگمەکە بکە 🕯️)</div>
 
         <div class="btn-group">
-            <button class="btn" onclick="launchFireworks()">تەقاندنی یاری ئاگرینی 🎆</button>
+            <button class="btn" onclick="launchFireworksShow()">تەقاندنی یاری ئاگرینی 🎆</button>
             <button class="btn btn-secondary" onclick="openModal()">پەیامی تایبەت 💌</button>
         </div>
     </div>
@@ -318,7 +292,7 @@
     </div>
 
     <script>
-        // Audio Effects
+        // Real Christmas Fireworks Audio Synthesizer
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         let audioCtx;
 
@@ -327,21 +301,45 @@
             if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
-        function playSound(freq, type, duration) {
+        function playLaunchSound() {
             initAudio();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = type;
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.4);
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.4);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.start();
-            osc.stop(audioCtx.currentTime + duration);
+            osc.stop(audioCtx.currentTime + 0.4);
         }
 
-        // Canvas Fireworks
+        function playExplodeSound() {
+            initAudio();
+            const bufferSize = audioCtx.sampleRate * 0.5;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(700, audioCtx.currentTime);
+            filter.frequency.linearRampToValueAtTime(30, audioCtx.currentTime + 0.5);
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            noise.start();
+        }
+
+        // Professional Canvas Fireworks Engine
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         let rockets = [];
@@ -356,21 +354,21 @@
 
         class Rocket {
             constructor() {
-                this.x = canvas.width / 2 + (Math.random() * 160 - 80);
+                this.x = canvas.width / 2 + (Math.random() * 200 - 100);
                 this.y = canvas.height;
                 this.targetX = Math.random() * (canvas.width * 0.8) + (canvas.width * 0.1);
-                this.targetY = Math.random() * (canvas.height * 0.4) + 60;
-                this.speed = 8;
+                this.targetY = Math.random() * (canvas.height * 0.45) + 60;
+                this.speed = 9;
                 this.angle = Math.atan2(this.targetY - this.y, this.targetX - this.x);
                 this.vx = Math.cos(this.angle) * this.speed;
                 this.vy = Math.sin(this.angle) * this.speed;
-                playSound(300, 'sine', 0.2);
+                playLaunchSound();
             }
 
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-                if (Math.hypot(this.targetX - this.x, this.targetY - this.y) < 10) {
+                if (Math.hypot(this.targetX - this.x, this.targetY - this.y) < 12) {
                     this.explode();
                     return false;
                 }
@@ -379,23 +377,60 @@
 
             draw() {
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
-                ctx.fillStyle = '#fff';
+                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
                 ctx.fill();
             }
 
             explode() {
-                playSound(100, 'square', 0.3);
-                confetti({
-                    particleCount: 40,
-                    spread: 60,
-                    origin: { x: this.x / canvas.width, y: this.y / canvas.height }
-                });
+                playExplodeSound();
+                const colors = ['#ec4899', '#38bdf8', '#facc15', '#a855f7', '#4ade80', '#f43f5e'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                for (let i = 0; i < 65; i++) {
+                    particles.push(new Particle(this.x, this.y, color));
+                }
+            }
+        }
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 6.5 + 1.5;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.alpha = 1;
+                this.friction = 0.95;
+                this.gravity = 0.12;
+            }
+
+            update() {
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= 0.016;
+                return this.alpha > 0;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2.8, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.restore();
             }
         }
 
         function loop() {
-            ctx.fillStyle = 'rgba(9, 10, 22, 0.25)';
+            ctx.fillStyle = 'rgba(5, 5, 13, 0.22)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             rockets = rockets.filter(r => {
@@ -403,29 +438,27 @@
                 return r.update();
             });
 
+            particles = particles.filter(p => {
+                p.draw();
+                return p.update();
+            });
+
             requestAnimationFrame(loop);
         }
         loop();
 
-        function launchFireworks() {
-            for (let i = 0; i < 4; i++) {
+        function launchFireworksShow() {
+            for (let i = 0; i < 5; i++) {
                 setTimeout(() => {
                     rockets.push(new Rocket());
-                }, i * 250);
+                }, i * 280);
             }
         }
 
         function blowCandle() {
             const flame = document.getElementById('flame');
-            const smoke = document.getElementById('smoke');
-            if (!flame.classList.contains('off')) {
-                flame.classList.add('off');
-                smoke.classList.add('active');
-                launchFireworks();
-            } else {
-                flame.classList.remove('off');
-                smoke.classList.remove('active');
-            }
+            flame.classList.toggle('off');
+            launchFireworksShow();
         }
 
         function openModal() {
@@ -436,8 +469,8 @@
             document.getElementById('modal').classList.remove('active');
         }
 
-        // Auto launch on load
-        setTimeout(launchFireworks, 600);
+        // Auto fireworks on start
+        setTimeout(launchFireworksShow, 600);
     </script>
 </body>
 </html>
